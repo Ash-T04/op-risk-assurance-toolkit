@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpRisk Assurance 2LoD | Private Banking Toolkit</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased flex flex-col">
+
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-indigo-600/20 text-indigo-400 rounded-lg border border-indigo-500/30">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-white">OpRisk Assurance 2LoD Hub</h1>
+                    <p class="text-xs text-slate-400">Private Banking & Wealth Management Governance Tools</p>
+                </div>
+            </div>
+            <!-- Tab Navigation -->
+            <nav class="flex gap-2 bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs font-medium">
+                <button onclick="switchTab('sampler')" id="tab-btn-sampler" class="tab-btn px-4 py-2 rounded-md bg-indigo-600 text-white transition">Audit Sampler</button>
+                <button onclick="switchTab('playbooks')" id="tab-btn-playbooks" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">Testing Playbooks</button>
+                <button onclick="switchTab('evaluator')" id="tab-btn-evaluator" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">Finding Evaluator</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-6 py-8 flex-1 w-full">
+
+        <!-- TAB 1: AUDIT SAMPLER -->
+        <section id="tab-sampler" class="space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <h2 class="text-xl font-semibold text-white">Statistical Control Testing Sampler</h2>
+                <p class="text-sm text-slate-400">Calculates minimum defensible sample sizes for testing Control Operating Effectiveness (COE) based on attribute sampling.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Controls Card -->
+                <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-4">
+                    <h3 class="font-medium text-slate-200 text-sm flex items-center gap-2">
+                        <i data-lucide="sliders" class="w-4 h-4 text-indigo-400"></i> Parameters
+                    </h3>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Population Size ($N$)</label>
+                        <input type="number" id="popSize" value="1200" min="1" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Confidence Level ($1 - \alpha$)</label>
+                        <select id="confLevel" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="0.90">90% (Moderate Risk Controls)</option>
+                            <option value="0.95" selected>95% (High Risk / Key Controls)</option>
+                            <option value="0.99">99% (Critical / SOX-Equivalent Controls)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Tolerable Deviation Rate (TDR)</label>
+                        <select id="tdr" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="0.05" selected>5% (Strict standard)</option>
+                            <option value="0.08">8% (Standard control)</option>
+                            <option value="0.10">10% (Low risk monitoring)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Expected Deviations Allowed ($k$)</label>
+                        <input type="number" id="expectedDev" value="0" min="0" max="3" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                        <span class="text-[10px] text-slate-500">Industry standard for 2LoD testing is 0 allowed deviations.</span>
+                    </div>
+
+                    <button onclick="calculateSample()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg text-sm transition">Calculate Sample Size</button>
+                </div>
+
+                <!-- Results Display -->
+                <div class="md:col-span-2 bg-slate-900 p-6 rounded-xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-medium text-slate-200 text-sm flex items-center gap-2 mb-4">
+                            <i data-lucide="calculator" class="w-4 h-4 text-indigo-400"></i> Sample Size Output
+                        </h3>
+
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                                <span class="text-xs text-slate-400">Required Sample ($n$)</span>
+                                <div id="sampleResult" class="text-3xl font-bold text-indigo-400 mt-1">60</div>
+                                <span class="text-[10px] text-slate-500">Items to independently sample</span>
+                            </div>
+                            <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
+                                <span class="text-xs text-slate-400">Max Tolerable Failures</span>
+                                <div id="maxFails" class="text-3xl font-bold text-amber-400 mt-1">0</div>
+                                <span class="text-[10px] text-slate-500">1 fail = control design/operation failure</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2 text-xs text-slate-300 bg-slate-950/50 p-4 rounded-lg border border-slate-800/80">
+                            <p class="font-semibold text-slate-200">Sampling Methodology Rationale:</p>
+                            <p id="rationaleText">Under a 95% confidence level with a 5% Tolerable Deviation Rate (TDR) and 0 expected exceptions, evaluating 60 items provides statistical assurance that the true control exception rate is below 5%.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+                        <span>Formulas: Binomial & Hypergeometric Approximation</span>
+                        <button onclick="window.print()" class="text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
+                            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Export Summary
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: PLAYBOOKS -->
+        <section id="tab-playbooks" class="hidden space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <h2 class="text-xl font-semibold text-white">Private Wealth Control Testing Procedures</h2>
+                <p class="text-sm text-slate-400">Pre-built 2LoD testing procedures for key private banking operational risk controls.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Playbook 1 -->
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-semibold text-slate-100 text-sm">High-Value Wire Voice Verification</h3>
+                        <span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] rounded">High Risk</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Control to prevent unauthorized fund transfers initiated via email or unverified channels.</p>
+                    <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                        <p><strong class="text-slate-300">CDE Criteria:</strong> Policy mandates independent call-back to registered contact number for orders &gt; $250k.</p>
+                        <p><strong class="text-slate-300">COE Test:</strong> Inspect voice logging system; confirm call timestamp predates execution and phone number matches core static registry.</p>
+                    </div>
+                </div>
+
+                <!-- Playbook 2 -->
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-semibold text-slate-100 text-sm">DPM Mandate Drift Monitoring</h3>
+                        <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] rounded">Medium Risk</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Detecting unauthorized asset allocation drift in Discretionary Portfolio Management.</p>
+                    <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                        <p><strong class="text-slate-300">CDE Criteria:</strong> Daily automated breach alert when equity/fixed-income bucket drifts &gt; 5% from mandate.</p>
+                        <p><strong class="text-slate-300">COE Test:</strong> Validate ticket resolution within 48 hours for sampled breach logs; confirm written client notifications.</p>
+                    </div>
+                </div>
+
+                <!-- Playbook 3 -->
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-semibold text-slate-100 text-sm">Cross-Border RM Activity Logging</h3>
+                        <span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] rounded">High Risk</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Ensuring Relationship Managers do not solicit securities in non-licensed foreign jurisdictions.</p>
+                    <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                        <p><strong class="text-slate-300">CDE Criteria:</strong> Pre-travel clearance approval required in CRM prior to overseas client interactions.</p>
+                        <p><strong class="text-slate-300">COE Test:</strong> Reconcile RM expense travel logs with CRM pre-approvals and country manual limits.</p>
+                    </div>
+                </div>
+
+                <!-- Playbook 4 -->
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-semibold text-slate-100 text-sm">Lombard Loan Collateral Revaluation</h3>
+                        <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] rounded">Medium Risk</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Preventing unhedged gap risk on margin loans secured against volatile single-stock collateral.</p>
+                    <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
+                        <p><strong class="text-slate-300">CDE Criteria:</strong> Real-time pricing feeds must trigger automated margin calls at LTV &gt; 70%.</p>
+                        <p><strong class="text-slate-300">COE Test:</strong> Sample market-drop days; verify automated margin notices were dispatched without manual suppression.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: FINDING EVALUATOR -->
+        <section id="tab-evaluator" class="hidden space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+                <h2 class="text-xl font-semibold text-white">Assurance Finding Severity Matrix</h2>
+                <p class="text-sm text-slate-400">Standardized objective rating tool for control deficiencies discovered during assurance reviews.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-4">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Deficiency Type</label>
+                        <select id="defType" onchange="evaluateFinding()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="design">Control Design Effectiveness (CDE) Missing</option>
+                            <option value="operating">Control Operating Effectiveness (COE) Failure</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Potential Financial Impact</label>
+                        <select id="finImpact" onchange="evaluateFinding()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="1">&lt; $50,000 (Low)</option>
+                            <option value="2">$50,000 - $500,000 (Medium)</option>
+                            <option value="3">&gt; $500,000 (High / Material)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Regulatory / Conduct Exposure</label>
+                        <select id="regImpact" onchange="evaluateFinding()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="1">Internal Policy Only</option>
+                            <option value="2">Potential Regulatory Scrutiny</option>
+                            <option value="3">Direct Regulatory Mandate / Sanction Risk</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Compensating Controls Present?</label>
+                        <select id="compControl" onchange="evaluateFinding()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="yes">Yes (Independent 2nd layer exists)</option>
+                            <option value="no" selected>No (Sole line of defense)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 bg-slate-900 p-6 rounded-xl border border-slate-800 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-medium text-slate-200 text-sm mb-4">Finding Classification Rationale</h3>
+                        <div class="bg-slate-950 p-5 rounded-lg border border-slate-800 text-center mb-6">
+                            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Assigned Severity</span>
+                            <div id="findingSeverity" class="text-3xl font-extrabold text-amber-400 mt-2">MEDIUM RISK</div>
+                        </div>
+
+                        <div class="text-xs text-slate-300 space-y-2 bg-slate-950/50 p-4 rounded-lg border border-slate-800">
+                            <p class="font-semibold text-slate-200">Recommended CRO Escalation Action:</p>
+                            <p id="escalationAction">Remediation required within 60 business days. Logged on 2LoD risk register; periodic re-testing required.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-[11px] text-slate-500 mt-4 border-t border-slate-800 pt-3">
+                        Aligned with 3 Lines of Defense risk taxonomy and internal audit grading models.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        // Tab Switching
+        function switchTab(tabId) {
+            ['sampler', 'playbooks', 'evaluator'].forEach(id => {
+                document.getElementById('tab-' + id).classList.add('hidden');
+                document.getElementById('tab-btn-' + id).classList.remove('bg-indigo-600', 'text-white');
+                document.getElementById('tab-btn-' + id).classList.add('text-slate-400');
+            });
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            document.getElementById('tab-btn-' + tabId).classList.add('bg-indigo-600', 'text-white');
+            document.getElementById('tab-btn-' + tabId).classList.remove('text-slate-400');
+        }
+
+        // Statistical Sample Calculation
+        function calculateSample() {
+            const N = parseInt(document.getElementById('popSize').value) || 1000;
+            const conf = parseFloat(document.getElementById('confLevel').value);
+            const tdr = parseFloat(document.getElementById('tdr').value);
+            const k = parseInt(document.getElementById('expectedDev').value) || 0;
+
+            // Simplified standard attribute sampling formula based on binomial log-likelihood for zero deviations
+            // n = ln(1 - Conf) / ln(1 - TDR)
+            let n_infinite = Math.log(1 - conf) / Math.log(1 - tdr);
+            
+            // Adjust for allowed deviations
+            if (k > 0) {
+                n_infinite = n_infinite * (1 + k * 0.75);
+            }
+
+            // Finite Population Correction: n = n0 / (1 + (n0 - 1)/N)
+            let n = Math.ceil(n_infinite / (1 + (n_infinite - 1) / N));
+            if (n > N) n = N;
+
+            document.getElementById('sampleResult').innerText = n;
+            document.getElementById('maxFails').innerText = k;
+            document.getElementById('rationaleText').innerText = 
+                `Under a ${(conf*100).toFixed(0)}% confidence level with a ${(tdr*100).toFixed(0)}% Tolerable Deviation Rate (TDR) across a population of ${N.toLocaleString()} events, sampling ${n} items provides statistical assurance that the true error rate is within boundaries.`;
+        }
+
+        // Finding Evaluation Matrix
+        function evaluateFinding() {
+            const fin = parseInt(document.getElementById('finImpact').value);
+            const reg = parseInt(document.getElementById('regImpact').value);
+            const comp = document.getElementById('compControl').value;
+            
+            let score = fin + reg;
+            if (comp === 'no') score += 1;
+
+            const badge = document.getElementById('findingSeverity');
+            const action = document.getElementById('escalationAction');
+
+            if (score >= 6) {
+                badge.innerText = 'CRITICAL / HIGH RISK';
+                badge.className = 'text-3xl font-extrabold text-rose-500 mt-2';
+                action.innerText = 'Immediate executive escalation to Head of Operational Risk & CRO. Formal remediation plan due within 15 days.';
+            } else if (score >= 4) {
+                badge.innerText = 'MEDIUM RISK';
+                badge.className = 'text-3xl font-extrabold text-amber-400 mt-2';
+                action.innerText = 'Remediation required within 60 business days. Logged on 2LoD risk register; periodic re-testing required.';
+            } else {
+                badge.innerText = 'LOW / OBSERVATION';
+                badge.className = 'text-3xl font-extrabold text-emerald-400 mt-2';
+                action.innerText = 'Address during normal business cycle or next policy review. No formal CRO committee escalation required.';
+            }
+        }
+
+        // Run on load
+        calculateSample();
+    </script>
+</body>
+</html>
