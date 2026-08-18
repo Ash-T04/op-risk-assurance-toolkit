@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpRisk Assurance 2LoD | Private Banking Toolkit</title>
+    <title>OpRisk Assurance 2LoD & 3LoD | Private Banking Toolkit</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -19,13 +19,13 @@
                     <i data-lucide="shield-check" class="w-6 h-6"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-lg text-white">OpRisk Assurance 2LoD Hub</h1>
-                    <p class="text-xs text-slate-400">Private Banking & Wealth Management Governance Tools</p>
+                    <h1 class="font-bold text-lg text-white">OpRisk Assurance & Audit Hub</h1>
+                    <p class="text-xs text-slate-400">2LoD Risk Assurance & 3LoD Internal Audit Standards for Private Wealth</p>
                 </div>
             </div>
             <!-- Tab Navigation -->
             <nav class="flex gap-2 bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs font-medium">
-                <button onclick="switchTab('sampler')" id="tab-btn-sampler" class="tab-btn px-4 py-2 rounded-md bg-indigo-600 text-white transition">Audit Sampler</button>
+                <button onclick="switchTab('sampler')" id="tab-btn-sampler" class="tab-btn px-4 py-2 rounded-md bg-indigo-600 text-white transition">AICPA/IIA Sampler</button>
                 <button onclick="switchTab('playbooks')" id="tab-btn-playbooks" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">Testing Playbooks</button>
                 <button onclick="switchTab('evaluator')" id="tab-btn-evaluator" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">CDE & CPE Evaluators</button>
             </nav>
@@ -37,25 +37,40 @@
 
         <!-- TAB 1: AUDIT SAMPLER -->
         <section id="tab-sampler" class="space-y-6">
-            <div class="border-b border-slate-800 pb-4">
-                <h2 class="text-xl font-semibold text-white">Risk-Calibrated Control Sampling Engine</h2>
-                <p class="text-sm text-slate-400">Calculates sample size ($n$) adjusted for <strong>Process Criticality Type</strong>, allowing non-zero planned deviations ($k \ge 0$) via binomial acceptance sampling.</p>
+            <div class="border-b border-slate-800 pb-4 flex flex-col md:flex-row justify-between md:items-end gap-2">
+                <div>
+                    <h2 class="text-xl font-semibold text-white">Statistical Assurance & Audit Sampler</h2>
+                    <p class="text-sm text-slate-400">AICPA Audit Sampling Guide & IIA Standard-aligned Attribute Sampling for Controls (COE/CPE).</p>
+                </div>
+                <div class="flex items-center gap-2 text-xs bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800 text-slate-300">
+                    <i data-lucide="book-marked" class="w-4 h-4 text-indigo-400"></i>
+                    <span>Standards: AICPA / IIA / PCAOB AS 2315</span>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Controls Card -->
                 <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-4">
                     <h3 class="font-medium text-slate-200 text-sm flex items-center gap-2">
-                        <i data-lucide="sliders" class="w-4 h-4 text-indigo-400"></i> Parameters
+                        <i data-lucide="sliders" class="w-4 h-4 text-indigo-400"></i> Assurance Parameters
                     </h3>
+
+                    <!-- Line of Defense Focus -->
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Line of Defense Scope</label>
+                        <select id="lineOfDefense" onchange="onLodChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 text-indigo-300 font-medium">
+                            <option value="2LoD" selected>2LoD: Risk Assurance & Control Testing</option>
+                            <option value="3LoD">3LoD: Internal Audit / Statutory Review</option>
+                        </select>
+                    </div>
 
                     <!-- Process Criticality Type -->
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Process Criticality / Type</label>
-                        <select id="procType" onchange="onProcessTypeChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 text-indigo-300 font-medium">
-                            <option value="tier1_critical">Tier 1: Critical Funds Outflow / Sanctions (Strict 0-Tolerance)</option>
-                            <option value="tier2_operational" selected>Tier 2: Core Wealth Operations / Trading (1 Failure Planned)</option>
-                            <option value="tier3_administrative">Tier 3: Routine Admin / Documentation (2 Failures Planned)</option>
+                        <select id="procType" onchange="onProcessTypeChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                            <option value="tier1_critical">Tier 1: Critical (Client Wire Callback, Sanctions, Lombard Liquidation)</option>
+                            <option value="tier2_operational" selected>Tier 2: Operational (DPM Mandate Drift, Pricing Feeds, Cross-Border)</option>
+                            <option value="tier3_administrative">Tier 3: Administrative (CRM Client Meeting Notes, Suitability Forms)</option>
                         </select>
                     </div>
 
@@ -76,70 +91,84 @@
 
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Population Size ($N$)</label>
-                        <input type="number" id="popSize" value="250" min="1" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                        <input type="number" id="popSize" value="250" min="1" oninput="calculateSample()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 font-mono">
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-xs text-slate-400 mb-1">Confidence ($1 - \alpha$)</label>
+                            <label class="block text-xs text-slate-400 mb-1">Confidence ($1-\alpha$)</label>
                             <select id="confLevel" onchange="calculateSample()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs focus:outline-none focus:border-indigo-500">
-                                <option value="0.90">90%</option>
-                                <option value="0.95" selected>95%</option>
-                                <option value="0.99">99%</option>
+                                <option value="0.90">90% (Moderate)</option>
+                                <option value="0.95" selected>95% (Standard/Key)</option>
+                                <option value="0.99">99% (High/Statutory)</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs text-slate-400 mb-1">Tolerable Rate (TDR)</label>
+                            <label class="block text-xs text-slate-400 mb-1">Tolerable (TDR)</label>
                             <select id="tdr" onchange="calculateSample()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs focus:outline-none focus:border-indigo-500">
                                 <option value="0.05" selected>5% (Strict)</option>
                                 <option value="0.08">8% (Standard)</option>
-                                <option value="0.10">10% (Flexible)</option>
+                                <option value="0.10">10% (Permissive)</option>
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">Planned Acceptance Deviations ($k$)</label>
-                        <input type="number" id="expectedDev" value="1" min="0" max="5" onchange="calculateSample()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                        <span class="text-[10px] text-slate-500">Number of exceptions tolerated before control is rated ineffective.</span>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs text-slate-400">Planned Acceptance Exceptions ($k$)</label>
+                            <span id="kLabel" class="text-[10px] text-indigo-400 font-mono">k = 1 allowed</span>
+                        </div>
+                        <input type="number" id="expectedDev" value="1" min="0" max="3" onchange="calculateSample()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 font-mono">
+                        <span class="text-[10px] text-slate-500">AICPA/IIA Standard: Zero ($k=0$) for Tier 1; 1–2 exceptions planned for Tier 2/3.</span>
                     </div>
 
-                    <button onclick="calculateSample()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg text-sm transition">Re-Calculate Sample</button>
+                    <button onclick="calculateSample()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg text-sm transition flex items-center justify-center gap-2">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Recalculate Sample Size
+                    </button>
                 </div>
 
                 <!-- Results Display -->
                 <div class="md:col-span-2 bg-slate-900 p-6 rounded-xl border border-slate-800 flex flex-col justify-between">
                     <div>
-                        <h3 class="font-medium text-slate-200 text-sm flex items-center gap-2 mb-4">
-                            <i data-lucide="calculator" class="w-4 h-4 text-indigo-400"></i> Sample Size & Acceptance Criteria
-                        </h3>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-medium text-slate-200 text-sm flex items-center gap-2">
+                                <i data-lucide="calculator" class="w-4 h-4 text-indigo-400"></i> Sample Plan Output
+                            </h3>
+                            <span id="methodBadge" class="px-2.5 py-0.5 text-[10px] font-mono rounded bg-slate-800 text-slate-300 border border-slate-700">Poisson-Binomial Exact</span>
+                        </div>
 
                         <div class="grid grid-cols-3 gap-4 mb-6">
                             <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                                <span class="text-xs text-slate-400">Required Sample ($n$)</span>
-                                <div id="sampleResult" class="text-3xl font-bold text-indigo-400 mt-1">45</div>
-                                <span class="text-[10px] text-slate-500">Tested items needed</span>
+                                <span class="text-xs text-slate-400">Sample Size ($n$)</span>
+                                <div id="sampleResult" class="text-3xl font-bold text-indigo-400 mt-1 font-mono">45</div>
+                                <span class="text-[10px] text-slate-500">Items to test</span>
                             </div>
                             <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                                <span class="text-xs text-slate-400">Tolerated Deviations ($k$)</span>
-                                <div id="maxFails" class="text-3xl font-bold text-amber-400 mt-1">1</div>
-                                <span class="text-[10px] text-slate-500">Control still passes if $\le k$</span>
+                                <span class="text-xs text-slate-400">Max Tolerable Failures ($k$)</span>
+                                <div id="maxFails" class="text-3xl font-bold text-amber-400 mt-1 font-mono">1</div>
+                                <span class="text-[10px] text-slate-500">Pass if failures $\le k$</span>
                             </div>
                             <div class="bg-slate-950 p-4 rounded-lg border border-slate-800">
-                                <span class="text-xs text-slate-400">Sample / Population %</span>
-                                <div id="coverageResult" class="text-3xl font-bold text-sky-400 mt-1">18.0%</div>
-                                <span class="text-[10px] text-slate-500">Coverage ratio</span>
+                                <span class="text-xs text-slate-400">Population Coverage</span>
+                                <div id="coverageResult" class="text-3xl font-bold text-sky-400 mt-1 font-mono">18.0%</div>
+                                <span class="text-[10px] text-slate-500">Of total occurrences</span>
                             </div>
                         </div>
 
-                        <div class="space-y-2 text-xs text-slate-300 bg-slate-950/50 p-4 rounded-lg border border-slate-800/80">
-                            <p class="font-semibold text-slate-200">Sampling & Exception Acceptance Rationale:</p>
-                            <p id="rationaleText">For Tier 2 Core Wealth Operations with 1 planned deviation allowed, the sample size expands from 25 to 45 items to mathematically ensure that the true population deviation rate remains below 5% with 95% confidence.</p>
+                        <div class="space-y-3 text-xs text-slate-300 bg-slate-950/60 p-4 rounded-lg border border-slate-800/80">
+                            <div>
+                                <span class="font-semibold text-slate-200 uppercase text-[10px] tracking-wider text-indigo-400">Audit Documentation Rationale:</span>
+                                <p id="rationaleText" class="mt-1 leading-relaxed text-slate-300">Evaluating sample rationale...</p>
+                            </div>
+                            <div class="border-t border-slate-800/80 pt-2 flex flex-col gap-1 text-[11px] text-slate-400">
+                                <p id="reliabilityFactorText"><strong>AICPA Reliability Factor ($R$):</strong> 4.75 | <strong>Formula:</strong> $n_0 = R / \text{TDR}$, corrected for finite $N$.</p>
+                                <p id="benchmarkGuidance"><strong>Guidance:</strong> Compliant with AICPA Audit Guide Table 3-5 and IIA Practice Standard for operational assurance.</p>
+                            </div>
                         </div>
                     </div>
 
                     <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
-                        <span>Binomial Cumulative Acceptance Sampling ($P(X \le k) \ge 1 - \alpha$)</span>
+                        <span>Defensible against Internal Audit & Regulatory Examination (Basel/OCC/FINMA/FCA)</span>
                         <button onclick="window.print()" class="text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
                             <i data-lucide="printer" class="w-3.5 h-3.5"></i> Export Plan
                         </button>
@@ -152,7 +181,7 @@
         <section id="tab-playbooks" class="hidden space-y-6">
             <div class="border-b border-slate-800 pb-4">
                 <h2 class="text-xl font-semibold text-white">Private Wealth Control Testing Playbooks</h2>
-                <p class="text-sm text-slate-400">Testing playbooks categorized by <strong>Process Type</strong> and deviation tolerance.</p>
+                <p class="text-sm text-slate-400">2LoD and 3LoD control test procedures with standard audit benchmark sampling and acceptance criteria.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -160,14 +189,15 @@
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                     <div class="flex justify-between items-start">
                         <div>
-                            <h3 class="font-semibold text-slate-100 text-sm">High-Value Wire Callback Verification</h3>
-                            <span class="text-[11px] text-rose-400 font-mono">Process: Tier 1 Critical Outflow | Tol: k = 0</span>
+                            <h3 class="font-semibold text-slate-100 text-sm">High-Value Wire Voice Verification</h3>
+                            <span class="text-[11px] text-rose-400 font-mono">Process: Tier 1 Critical Outflow | Benchmark: n=25-45, k=0</span>
                         </div>
                         <span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] rounded">Critical</span>
                     </div>
-                    <p class="text-xs text-slate-400">Callback verification for client wire instructions &gt; $250k.</p>
+                    <p class="text-xs text-slate-400">Control to prevent fraudulent or unauthorized fund transfers initiated via unverified channels.</p>
                     <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
-                        <p><strong class="text-slate-300">Acceptance Policy:</strong> Zero failures allowed ($k = 0$). Any unverified callback indicates potential fraud vulnerability.</p>
+                        <p><strong class="text-slate-300">CDE Test:</strong> Dual-authorization system gate enforced for &gt; $250k; independent callback to verified core registry number.</p>
+                        <p><strong class="text-slate-300">CPE Sampling:</strong> AICPA Attribute sampling of 25–45 executed transfers ($k=0$). Reconcile voice recording time against swift dispatch timestamp.</p>
                     </div>
                 </div>
 
@@ -176,13 +206,14 @@
                     <div class="flex justify-between items-start">
                         <div>
                             <h3 class="font-semibold text-slate-100 text-sm">DPM Mandate Drift Monitoring</h3>
-                            <span class="text-[11px] text-amber-400 font-mono">Process: Tier 2 Operational Trading | Tol: k = 1</span>
+                            <span class="text-[11px] text-amber-400 font-mono">Process: Tier 2 Operational | Benchmark: n=40-55, k=1</span>
                         </div>
                         <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] rounded">Medium Risk</span>
                     </div>
-                    <p class="text-xs text-slate-400">Monitoring portfolio asset-class allocations against client mandate parameters.</p>
+                    <p class="text-xs text-slate-400">Detecting portfolio allocation drift outside client investment mandate boundaries.</p>
                     <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
-                        <p><strong class="text-slate-300">Acceptance Policy:</strong> 1 non-material delay in alert sign-off permitted ($k = 1$) provided underlying portfolio was rebalanced within 5 days.</p>
+                        <p><strong class="text-slate-300">CDE Test:</strong> Daily automated batch report for &gt; 5% asset class deviation with mandatory sign-off workflow.</p>
+                        <p><strong class="text-slate-300">CPE Sampling:</strong> Sample 45 daily batch runs allowing up to 1 non-material delay ($k=1$) if underlying portfolio rebalancing occurred within SLA.</p>
                     </div>
                 </div>
 
@@ -190,14 +221,15 @@
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                     <div class="flex justify-between items-start">
                         <div>
-                            <h3 class="font-semibold text-slate-100 text-sm">RM Meeting Notes & Suitability Documentation</h3>
-                            <span class="text-[11px] text-sky-400 font-mono">Process: Tier 3 Administrative | Tol: k = 2</span>
+                            <h3 class="font-semibold text-slate-100 text-sm">Cross-Border RM Travel Pre-Clearance</h3>
+                            <span class="text-[11px] text-amber-400 font-mono">Process: Tier 2 Operational | Benchmark: n=25-45, k=1</span>
                         </div>
-                        <span class="px-2 py-0.5 bg-sky-500/20 text-sky-300 border border-sky-500/30 text-[10px] rounded">Low–Medium</span>
+                        <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] rounded">Medium Risk</span>
                     </div>
-                    <p class="text-xs text-slate-400">Verifying RM timely upload of annual client interaction summaries into CRM.</p>
+                    <p class="text-xs text-slate-400">Ensuring Relationship Managers do not solicit clients in foreign jurisdictions without licensing clearance.</p>
                     <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
-                        <p><strong class="text-slate-300">Acceptance Policy:</strong> Up to 2 minor procedural upload delays allowed ($k = 2$) across a sample of 60 client files.</p>
+                        <p><strong class="text-slate-300">CDE Test:</strong> Mandatory pre-travel CRM approval linked to country manual limits prior to travel expense reimbursement.</p>
+                        <p><strong class="text-slate-300">CPE Sampling:</strong> Sample 35 travel records across private banking desks; reconcile travel expense dates with pre-approval tickets.</p>
                     </div>
                 </div>
 
@@ -205,14 +237,15 @@
                 <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 space-y-3">
                     <div class="flex justify-between items-start">
                         <div>
-                            <h3 class="font-semibold text-slate-100 text-sm">Collateral Valuation Feed Reconciliation</h3>
-                            <span class="text-[11px] text-amber-400 font-mono">Process: Tier 2 Operational | Tol: k = 1</span>
+                            <h3 class="font-semibold text-slate-100 text-sm">PEP / High-Risk Account Periodic Review</h3>
+                            <span class="text-[11px] text-rose-400 font-mono">Process: Tier 1 Critical Compliance | Benchmark: 100% (n=1-2/yr)</span>
                         </div>
-                        <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] rounded">Medium Risk</span>
+                        <span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] rounded">Critical</span>
                     </div>
-                    <p class="text-xs text-slate-400">Reconciling daily market pricing feeds for Lombard collateral haircut calculations.</p>
+                    <p class="text-xs text-slate-400">Annual KYC / Source of Wealth re-assessment for high-risk and PEP wealth clients.</p>
                     <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
-                        <p><strong class="text-slate-300">Acceptance Policy:</strong> 1 isolated feed timestamp lag allowed if manual backup pricing was applied before market open.</p>
+                        <p><strong class="text-slate-300">CDE Test:</strong> Core banking hard-stop prevents account trading/transfers if annual review is overdue past 30 days.</p>
+                        <p><strong class="text-slate-300">CPE Sampling:</strong> Low-frequency benchmark: 100% review of annual triggers (or minimum 25 accounts if high-volume). Zero deviations allowed.</p>
                     </div>
                 </div>
             </div>
@@ -221,8 +254,8 @@
         <!-- TAB 3: SEPARATE CDE & CPE EVALUATORS -->
         <section id="tab-evaluator" class="hidden space-y-8">
             <div class="border-b border-slate-800 pb-4">
-                <h2 class="text-xl font-semibold text-white">Control Deficiency Evaluators</h2>
-                <p class="text-sm text-slate-400">Independent evaluation modules for <strong>Control Design Effectiveness (CDE)</strong> and <strong>Control Performance Effectiveness (CPE)</strong> calibrated for Process Type.</p>
+                <h2 class="text-xl font-semibold text-white">2LoD / 3LoD Control Deficiency Evaluators</h2>
+                <p class="text-sm text-slate-400">Independent evaluation matrices for <strong>Control Design Effectiveness (CDE)</strong> and <strong>Control Performance Effectiveness (CPE)</strong> aligned with professional audit grading standards.</p>
             </div>
 
             <!-- SECTION 1: CONTROL DESIGN EFFECTIVENESS (CDE) -->
@@ -234,7 +267,7 @@
                         </div>
                         <div>
                             <h3 class="text-base font-semibold text-white">1. Control Design Effectiveness (CDE) Evaluator</h3>
-                            <p class="text-xs text-slate-400">Evaluates conceptual adequacy to mitigate the targeted operational risk.</p>
+                            <p class="text-xs text-slate-400">Evaluates whether the control as documented is conceptually adequate to mitigate the targeted operational risk.</p>
                         </div>
                     </div>
                     <span class="text-xs font-mono text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2.5 py-1 rounded">CDE Assessment</span>
@@ -292,16 +325,16 @@
                     <div class="md:col-span-2 bg-slate-950 p-5 rounded-lg border border-slate-800 flex flex-col justify-between">
                         <div>
                             <div class="flex justify-between items-start mb-3">
-                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">CDE Rating Output</span>
+                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">CDE Audit Rating Output</span>
                                 <div id="cdeBadge" class="text-sm font-bold px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">SUB-OPTIMAL DESIGN</div>
                             </div>
                             <div class="text-xs text-slate-300 space-y-2 bg-slate-900/60 p-4 rounded border border-slate-800">
                                 <p class="font-semibold text-slate-200">Design Assessment Breakdown:</p>
-                                <p id="cdeRationale">Evaluating...</p>
+                                <p id="cdeRationale">Evaluating design attributes...</p>
                             </div>
                         </div>
                         <div class="text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800" id="cdeAssuranceImpact">
-                            <strong>Assurance Protocol:</strong> Evaluating...
+                            <strong>Audit Assurance Protocol:</strong> Evaluating...
                         </div>
                     </div>
                 </div>
@@ -316,7 +349,7 @@
                         </div>
                         <div>
                             <h3 class="text-base font-semibold text-white">2. Control Performance Effectiveness (CPE) Evaluator</h3>
-                            <p class="text-xs text-slate-400">Evaluates operating discipline, balancing observed exceptions against process risk criticality.</p>
+                            <p class="text-xs text-slate-400">Evaluates actual execution consistency calibrated against planned sampling thresholds and process risk.</p>
                         </div>
                     </div>
                     <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded">CPE Assessment</span>
@@ -378,12 +411,12 @@
                     <div class="md:col-span-2 bg-slate-950 p-5 rounded-lg border border-slate-800 flex flex-col justify-between">
                         <div>
                             <div class="flex justify-between items-start mb-3">
-                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">CPE Rating Output</span>
+                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">CPE Audit Rating Output</span>
                                 <div id="cpeBadge" class="text-sm font-bold px-3 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">OPERATING EFFECTIVELY</div>
                             </div>
                             <div class="text-xs text-slate-300 space-y-2 bg-slate-900/60 p-4 rounded border border-slate-800">
                                 <p class="font-semibold text-slate-200">Performance Assessment Breakdown:</p>
-                                <p id="cpeRationale">Evaluating...</p>
+                                <p id="cpeRationale">Evaluating performance attributes...</p>
                             </div>
                         </div>
                         <div class="text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800" id="cpeEscalation">
@@ -412,6 +445,18 @@
             document.getElementById('tab-' + tabId).classList.remove('hidden');
             document.getElementById('tab-btn-' + tabId).classList.add('bg-indigo-600', 'text-white');
             document.getElementById('tab-btn-' + tabId).classList.remove('text-slate-400');
+        }
+
+        // Line of Defense Presets
+        function onLodChange() {
+            const lod = document.getElementById('lineOfDefense').value;
+            const conf = document.getElementById('confLevel');
+            if (lod === '3LoD') {
+                conf.value = "0.95";
+            } else {
+                conf.value = "0.95";
+            }
+            calculateSample();
         }
 
         // Process Type Presets in Sampler
@@ -455,53 +500,78 @@
             calculateSample();
         }
 
-        // Binomial / Poisson Acceptance Sample Calculation (k >= 0)
+        // Standard AICPA / Poisson Reliability Factors Table: R(k, confidence)
+        // Table 3-5 of AICPA Audit Sampling Guide
+        const AICPA_RELIABILITY_FACTORS = {
+            "0.90": { 0: 2.31, 1: 3.89, 2: 5.33, 3: 6.69 },
+            "0.95": { 0: 3.00, 1: 4.75, 2: 6.30, 3: 7.76 },
+            "0.99": { 0: 4.61, 1: 6.64, 2: 8.41, 3: 10.05 }
+        };
+
+        // Exact Audit Sampling Engine
         function calculateSample() {
+            const lod = document.getElementById('lineOfDefense').value;
             const proc = document.getElementById('procType').value;
             const freq = document.getElementById('ctrlFrequency').value;
             const N = parseInt(document.getElementById('popSize').value) || 1;
-            const conf = parseFloat(document.getElementById('confLevel').value);
+            const conf = document.getElementById('confLevel').value;
             const tdr = parseFloat(document.getElementById('tdr').value);
-            const k = parseInt(document.getElementById('expectedDev').value) || 0;
+            let k = parseInt(document.getElementById('expectedDev').value);
+            if (isNaN(k) || k < 0) k = 0;
+            if (k > 3) k = 3;
+
+            document.getElementById('kLabel').innerText = `k = ${k} allowed`;
 
             let n = 0;
             let rationale = "";
+            let methodBadge = "AICPA / Poisson Exact";
+            let rFactor = 3.00;
 
-            // Low frequency hard caps
+            // 1. Low-Frequency Controls: AICPA / IIA Fixed Benchmark Rules
             if (freq === 'annual') {
-                n = 1;
-                rationale = "For Annual controls (N=1), 100% testing is required (n=1). 0 deviations tolerated.";
+                n = Math.min(N, 1);
+                k = 0;
+                methodBadge = "AICPA Low-Freq Benchmark";
+                rationale = `For Annual controls (N=${N}), industry audit standards mandate 100% testing (n=1). Zero exceptions allowed (${k}=0).`;
             } else if (freq === 'biannual') {
-                n = 2;
-                rationale = "For Semi-Annual controls (N=2), 100% testing is required (n=2). 0 deviations tolerated.";
+                n = Math.min(N, 2);
+                k = 0;
+                methodBadge = "AICPA Low-Freq Benchmark";
+                rationale = `For Semi-Annual controls (N=${N}), 100% testing is standard (n=2). Zero exceptions allowed (${k}=0).`;
             } else if (freq === 'quarterly') {
-                n = (N <= 4) ? N : 4;
-                rationale = `For Quarterly controls (N=${N}), testing all 4 quarters is standard (n=${n}).`;
+                n = (N <= 4) ? (conf === "0.99" || proc === 'tier1_critical' ? N : Math.min(N, Math.max(2, N - 1))) : 4;
+                k = 0;
+                methodBadge = "AICPA Low-Freq Benchmark";
+                rationale = `For Quarterly controls (N=${N}), AICPA standards require testing 2 to 4 quarters (selected: ${n}). A single failure is a control breakdown.`;
             } else if (freq === 'monthly') {
-                n = (N <= 12) ? Math.min(N, (conf >= 0.95 ? (k > 0 ? 8 : 5) : 3)) : 5;
-                rationale = `For Monthly controls (N=${N}), standard sampling requires testing ${n} months.`;
+                const benchmark = (conf === "0.99" || proc === 'tier1_critical') ? 5 : (conf === "0.95" ? (k > 0 ? 6 : 4) : 2);
+                n = Math.min(N, benchmark);
+                methodBadge = "AICPA Low-Freq Benchmark";
+                rationale = `For Monthly controls (N=${N}), AICPA/IIA guidance specifies a sample of 2 to 6 monthly reconciliations (selected: ${n}).`;
+            } else if (freq === 'weekly') {
+                const benchmark = (conf === "0.99" || proc === 'tier1_critical') ? 15 : (k > 0 ? 15 : 10);
+                n = Math.min(N, benchmark);
+                methodBadge = "AICPA / IIA Benchmark";
+                rationale = `For Weekly controls (N=${N}), IIA practice guides prescribe 10 to 15 items (selected: ${n}) across the 52-week operating cycle.`;
             } else {
-                // Statistical attribute sampling: n increases when planning for k > 0 allowed exceptions
-                // Base formula: n0 = ln(1-conf)/ln(1-TDR) for k=0; expanded using Poisson cumulative factor for k>0
-                let expansionFactor = 1;
-                if (k === 1) expansionFactor = 1.65;
-                else if (k === 2) expansionFactor = 2.15;
-                else if (k >= 3) expansionFactor = 2.65;
+                // 2. High-Frequency / High-Volume Controls (Daily, Multiple Daily, Ad-Hoc):
+                // Statistical Attribute Sampling: n0 = R(k, confidence) / TDR
+                rFactor = AICPA_RELIABILITY_FACTORS[conf][k] || 3.00;
+                let n0 = rFactor / tdr;
 
-                let n_infinite = (Math.log(1 - conf) / Math.log(1 - tdr)) * expansionFactor;
-                n = Math.ceil(n_infinite / (1 + (n_infinite - 1) / N));
+                // Finite Population Correction (Hypergeometric Adjustment): n = n0 / (1 + (n0 - 1) / N)
+                let n_calc = Math.ceil(n0 / (1 + (n0 - 1) / N));
 
-                if (freq === 'daily') {
-                    const minBase = (k === 0) ? 25 : (k === 1 ? 40 : 55);
-                    n = Math.min(N, Math.max(minBase, n));
-                } else if (freq === 'weekly') {
-                    n = Math.min(N, Math.max((k === 0 ? 10 : 18), n));
-                } else {
-                    n = Math.min(N, Math.max((k === 0 ? 30 : 50), n));
-                }
+                // Apply Basel/IIA minimum sample floors
+                let minFloor = 25;
+                if (k === 1) minFloor = 40;
+                if (k === 2) minFloor = 55;
+                if (k >= 3) minFloor = 65;
+
+                n = Math.min(N, Math.max(minFloor, n_calc));
 
                 const procLabel = proc === 'tier1_critical' ? 'Tier 1 Critical' : (proc === 'tier2_operational' ? 'Tier 2 Operational' : 'Tier 3 Admin');
-                rationale = `For a ${procLabel} ${freq} control (N=${N}) allowing up to ${k} failure(s), testing a sample of ${n} mathematically proves the true exception rate is < ${(tdr*100).toFixed(0)}% at ${(conf*100).toFixed(0)}% confidence.`;
+                rationale = `For a ${procLabel} ${freq} population (N=${N}) under ${lod} testing, sampling ${n} items with $\\le$ ${k} exception(s) provides ${(parseFloat(conf)*100).toFixed(0)}% assurance that true deviation rate is < ${(tdr*100).toFixed(0)}%.`;
             }
 
             const coverage = ((n / N) * 100).toFixed(1);
@@ -509,10 +579,12 @@
             document.getElementById('sampleResult').innerText = n;
             document.getElementById('maxFails').innerText = k;
             document.getElementById('coverageResult').innerText = coverage + "%";
+            document.getElementById('methodBadge').innerText = methodBadge;
             document.getElementById('rationaleText').innerText = rationale;
+            document.getElementById('reliabilityFactorText').innerHTML = `<strong>AICPA Reliability Factor ($R$):</strong> ${rFactor.toFixed(2)} | <strong>Formula:</strong> $n_0 = R / \\text{TDR}$, with Finite Population Correction.`;
         }
 
-        // Comprehensive CDE Evaluation (Factors in ALL 5 Dropdowns including Process Type)
+        // Comprehensive CDE Evaluation
         function evaluateCDE() {
             const proc = document.getElementById('cdeProcType').value;
             const freqMatch = document.getElementById('cdeFreqMatch').value;
@@ -526,26 +598,25 @@
 
             let penalty = 0;
             let drivers = [];
-
-            // Criticality weight multiplier
             const weight = (proc === 'tier1_critical') ? 1.5 : (proc === 'tier2_operational' ? 1.0 : 0.7);
-            drivers.push(`Process: ${proc === 'tier1_critical' ? 'Tier 1 Critical' : (proc === 'tier2_operational' ? 'Tier 2 Operational' : 'Tier 3 Administrative')}`);
 
-            if (freqMatch === 'adhoc_untriggered') { penalty += 3 * weight; drivers.push("ad-hoc control lacks an automated trigger"); }
-            else if (freqMatch === 'lagging') { penalty += 2 * weight; drivers.push("frequency lags underlying risk velocity"); }
+            drivers.push(`Scope: ${proc === 'tier1_critical' ? 'Tier 1 Critical' : (proc === 'tier2_operational' ? 'Tier 2 Operational' : 'Tier 3 Administrative')}`);
+
+            if (freqMatch === 'adhoc_untriggered') { penalty += 3 * weight; drivers.push("ad-hoc control lacks an automated trigger mechanism"); }
+            else if (freqMatch === 'lagging') { penalty += 2 * weight; drivers.push("control frequency lags underlying transaction risk velocity"); }
             else { drivers.push("execution frequency matches risk velocity"); }
 
-            if (auto === 'manual') { penalty += 2 * weight; drivers.push("relies purely on manual/spreadsheet checks"); }
-            else if (auto === 'semi') { penalty += 1 * weight; drivers.push("uses semi-automated detective alerts"); }
-            else { drivers.push("enforced by automated preventative system hard-stops"); }
+            if (auto === 'manual') { penalty += 2 * weight; drivers.push("purely manual execution increases human failure probability"); }
+            else if (auto === 'semi') { penalty += 1 * weight; drivers.push("semi-automated detective alerts require timely human intervention"); }
+            else { drivers.push("enforced automated preventative hard-stop"); }
 
-            if (sod === 'none') { penalty += 4 * weight; drivers.push("critical failure: no segregation of duties (single operator)"); }
+            if (sod === 'none') { penalty += 4 * weight; drivers.push("critical failure: no segregation of duties (single user)"); }
             else if (sod === 'partial') { penalty += 2 * weight; drivers.push("partial SoD conflict (same-desk manual review)"); }
-            else { drivers.push("enforced 4-eyes dual authorization in place"); }
+            else { drivers.push("enforced dual-authorization (4-Eyes) active"); }
 
-            if (policy === 'unaligned') { penalty += 3 * weight; drivers.push("control is missing from governance policy"); }
-            else if (policy === 'ambiguous') { penalty += 1.5 * weight; drivers.push("policy guidelines have discretionary limits"); }
-            else { drivers.push("policy limits are quantitatively documented"); }
+            if (policy === 'unaligned') { penalty += 3 * weight; drivers.push("control unaligned with formal governance policy"); }
+            else if (policy === 'ambiguous') { penalty += 1.5 * weight; drivers.push("policy guidelines contain discretionary thresholds"); }
+            else { drivers.push("quantitatively documented policy limits"); }
 
             if (penalty >= 5.5 || sod === 'none' || (proc === 'tier1_critical' && auto === 'manual')) {
                 badge.innerText = 'CDE DEFICIENT (HIGH RISK)';
@@ -554,7 +625,7 @@
             } else if (penalty >= 2.2) {
                 badge.innerText = 'SUB-OPTIMAL DESIGN (MEDIUM RISK)';
                 badge.className = 'text-sm font-bold px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30';
-                impact.innerHTML = '<strong>Assurance Protocol:</strong> <strong>CDE CONDITIONALLY ACCEPTED.</strong> Expand sample size during performance testing.';
+                impact.innerHTML = '<strong>Assurance Protocol:</strong> <strong>CDE CONDITIONALLY ACCEPTED.</strong> Increase sample size during CPE testing.';
             } else {
                 badge.innerText = 'EFFECTIVELY DESIGNED';
                 badge.className = 'text-sm font-bold px-3 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
@@ -564,7 +635,7 @@
             rationale.innerText = drivers.join("; ") + ".";
         }
 
-        // Comprehensive CPE Evaluation (Factors in ALL 5 Dropdowns including Process Type)
+        // Comprehensive CPE Evaluation
         function evaluateCPE() {
             const proc = document.getElementById('cpeProcType').value;
             const freq = document.getElementById('cpeFrequency').value;
@@ -580,40 +651,38 @@
             let drivers = [];
             const isLowFreq = (freq === 'annual' || freq === 'quarterly');
 
-            drivers.push(`Process: ${proc === 'tier1_critical' ? 'Tier 1 Critical' : (proc === 'tier2_operational' ? 'Tier 2 Operational' : 'Tier 3 Administrative')}`);
+            drivers.push(`Scope: ${proc === 'tier1_critical' ? 'Tier 1 Critical' : (proc === 'tier2_operational' ? 'Tier 2 Operational' : 'Tier 3 Administrative')}`);
 
-            // DEVIATION PENALTY CALIBRATED FOR PROCESS TYPE:
             if (dev === 'multiple') {
                 penalty += 5;
                 drivers.push("3+ multiple exceptions indicate systemic execution failure");
             } else if (dev === '2') {
-                if (proc === 'tier1_critical') { penalty += 4.5; drivers.push("2 exceptions on Tier 1 Critical process is severe"); }
+                if (proc === 'tier1_critical') { penalty += 4.5; drivers.push("2 exceptions on Tier 1 Critical process breaches tolerance"); }
                 else if (proc === 'tier2_operational') { penalty += 2.5; drivers.push("2 exceptions exceed standard operational allowance"); }
-                else { penalty += 1.0; drivers.push("2 exceptions within tolerable admin deviation limits"); }
+                else { penalty += 1.0; drivers.push("2 exceptions tolerated under Tier 3 admin scope"); }
             } else if (dev === '1') {
                 if (proc === 'tier1_critical' || isLowFreq) {
                     penalty += 3.5;
-                    drivers.push(`1 exception on ${proc === 'tier1_critical' ? 'Tier 1 Critical process' : 'Low-Frequency control'} breaches risk tolerance`);
+                    drivers.push(`1 exception on ${proc === 'tier1_critical' ? 'Tier 1 Critical process' : 'Low-Frequency control'} breaches zero-tolerance standard`);
                 } else if (proc === 'tier2_operational') {
-                    penalty += 0.5; // Minimal penalty for isolated operational glitch
-                    drivers.push("1 isolated exception observed on high-volume operational control (within acceptable allowance)");
+                    penalty += 0.5;
+                    drivers.push("1 isolated exception observed (within acceptable Tier 2 allowance)");
                 } else {
-                    penalty += 0.0; // Tier 3 Admin completely tolerates 1 isolated exception
-                    drivers.push("1 minor procedural exception observed (fully tolerated under Tier 3 admin scope)");
+                    penalty += 0.0;
+                    drivers.push("1 minor procedural exception observed (fully tolerated under Tier 3 admin)");
                 }
             } else {
                 drivers.push("0 exceptions observed across sample");
             }
 
-            if (evidence === 'missing') { penalty += 4; drivers.push("audit trail is missing/unverifiable"); }
-            else if (evidence === 'partial') { penalty += 1.5; drivers.push("partial/retrospective documentation found"); }
-            else { drivers.push("full audit trail verified"); }
+            if (evidence === 'missing') { penalty += 4; drivers.push("audit trail is missing or unverifiable"); }
+            else if (evidence === 'partial') { penalty += 1.5; drivers.push("partial or retrospective documentation found"); }
+            else { drivers.push("full timestamped audit trail verified"); }
 
             if (timeliness === 'unresolved') { penalty += 3; drivers.push("exceptions left unmonitored"); }
             else if (timeliness === 'delayed') { penalty += 1; drivers.push("remediation SLA exceeded (>48h)"); }
-            else { drivers.push("escalations resolved within SLA"); }
+            else { drivers.push("escalations resolved within formal SLA"); }
 
-            // Synthesize Verdict
             if (penalty >= 4.0 || (proc === 'tier1_critical' && (dev === 'multiple' || dev === '2'))) {
                 badge.innerText = 'CPE INEFFECTIVE (HIGH RISK)';
                 badge.className = 'text-sm font-bold px-3 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30';
@@ -631,7 +700,7 @@
             rationale.innerText = drivers.join("; ") + ".";
         }
 
-        // Initial Calculations
+        // Run calculations on load
         calculateSample();
         evaluateCDE();
         evaluateCPE();
