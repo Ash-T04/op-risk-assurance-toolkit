@@ -27,7 +27,7 @@
             <nav class="flex gap-2 bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs font-medium">
                 <button onclick="switchTab('sampler')" id="tab-btn-sampler" class="tab-btn px-4 py-2 rounded-md bg-indigo-600 text-white transition">Audit Sampler</button>
                 <button onclick="switchTab('playbooks')" id="tab-btn-playbooks" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">Testing Playbooks</button>
-                <button onclick="switchTab('evaluator')" id="tab-btn-evaluator" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">Finding Evaluator</button>
+                <button onclick="switchTab('evaluator')" id="tab-btn-evaluator" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">CDE & COE Evaluators</button>
             </nav>
         </div>
     </header>
@@ -179,69 +179,143 @@
             </div>
         </section>
 
-        <!-- TAB 3: FINDING EVALUATOR -->
-        <section id="tab-evaluator" class="hidden space-y-6">
+        <!-- TAB 3: SEPARATE CDE & COE EVALUATORS -->
+        <section id="tab-evaluator" class="hidden space-y-8">
             <div class="border-b border-slate-800 pb-4">
-                <h2 class="text-xl font-semibold text-white">Assurance Finding Severity Matrix</h2>
-                <p class="text-sm text-slate-400">Standardized objective rating tool for control deficiencies discovered during assurance reviews.</p>
+                <h2 class="text-xl font-semibold text-white">Control Deficiency Evaluators</h2>
+                <p class="text-sm text-slate-400">Independent evaluation modules for <strong>Control Design Effectiveness (CDE)</strong> and <strong>Control Operating / Performance Effectiveness (COE)</strong>.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-4">
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">Deficiency Type</label>
-                        <select id="defType" onchange="evaluateFinding()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                            <option value="design">Control Design Effectiveness (CDE) Missing</option>
-                            <option value="operating">Control Operating Effectiveness (COE) Failure</option>
-                        </select>
+            <!-- SECTION 1: CONTROL DESIGN EFFECTIVENESS (CDE) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="p-1.5 bg-sky-500/20 text-sky-400 rounded-md">
+                            <i data-lucide="layout-template" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-semibold text-white">1. Control Design Effectiveness (CDE) Evaluator</h3>
+                            <p class="text-xs text-slate-400">Evaluates whether the control as documented is conceptually adequate to mitigate the target risk.</p>
+                        </div>
                     </div>
-
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">Potential Financial Impact</label>
-                        <select id="finImpact" onchange="evaluateFinding()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                            <option value="1">&lt; $50,000 (Low)</option>
-                            <option value="2">$50,000 - $500,000 (Medium)</option>
-                            <option value="3">&gt; $500,000 (High / Material)</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">Regulatory / Conduct Exposure</label>
-                        <select id="regImpact" onchange="evaluateFinding()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                            <option value="1">Internal Policy Only</option>
-                            <option value="2">Potential Regulatory Scrutiny</option>
-                            <option value="3">Direct Regulatory Mandate / Sanction Risk</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">Compensating Controls Present?</label>
-                        <select id="compControl" onchange="evaluateFinding()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                            <option value="yes">Yes (Independent 2nd layer exists)</option>
-                            <option value="no" selected>No (Sole line of defense)</option>
-                        </select>
-                    </div>
+                    <span class="text-xs font-mono text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2.5 py-1 rounded">Design Assessment</span>
                 </div>
 
-                <div class="md:col-span-2 bg-slate-900 p-6 rounded-xl border border-slate-800 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-medium text-slate-200 text-sm mb-4">Finding Classification Rationale</h3>
-                        <div class="bg-slate-950 p-5 rounded-lg border border-slate-800 text-center mb-6">
-                            <span class="text-xs uppercase tracking-wider text-slate-500 font-semibold">Assigned Severity</span>
-                            <div id="findingSeverity" class="text-3xl font-extrabold text-amber-400 mt-2">MEDIUM RISK</div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- CDE Inputs -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Control Automation Nature</label>
+                            <select id="cdeAutomation" onchange="evaluateCDE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="automated">Automated Preventative (System Hard-Stop)</option>
+                                <option value="semi">Semi-Automated Detective (Daily Alert / Report)</option>
+                                <option value="manual" selected>Purely Manual / Spreadsheet-Based</option>
+                            </select>
                         </div>
 
-                        <div class="text-xs text-slate-300 space-y-2 bg-slate-950/50 p-4 rounded-lg border border-slate-800">
-                            <p class="font-semibold text-slate-200">Recommended CRO Escalation Action:</p>
-                            <p id="escalationAction">Remediation required within 60 business days. Logged on 2LoD risk register; periodic re-testing required.</p>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Segregation of Duties (SoD)</label>
+                            <select id="cdeSod" onchange="evaluateCDE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="adequate" selected>Enforced System Dual-Authorization (4-Eyes)</option>
+                                <option value="partial">Manual Sign-off on Same Desk</option>
+                                <option value="none">Single Individual Initiates & Approves</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Policy & Standard Alignment</label>
+                            <select id="cdePolicy" onchange="evaluateCDE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="clear" selected>Formally Documented & Clear Thresholds</option>
+                                <option value="ambiguous">Informal / Thresholds Left to Discretion</option>
+                                <option value="unaligned">Contradicts Regulatory Policy Guidance</option>
+                            </select>
                         </div>
                     </div>
 
-                    <div class="text-[11px] text-slate-500 mt-4 border-t border-slate-800 pt-3">
-                        Aligned with 3 Lines of Defense risk taxonomy and internal audit grading models.
+                    <!-- CDE Output Rationale -->
+                    <div class="md:col-span-2 bg-slate-950 p-5 rounded-lg border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">CDE Rating</span>
+                                <div id="cdeBadge" class="text-sm font-bold px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">SUB-OPTIMAL DESIGN</div>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-2 bg-slate-900/60 p-4 rounded border border-slate-800">
+                                <p class="font-semibold text-slate-200">Design Assessment Rationale:</p>
+                                <p id="cdeRationale">The control relies on manual intervention with non-automated checks. Risk of human error or delayed detection is heightened.</p>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800">
+                            <strong>Assurance Action:</strong> If CDE fails, operational testing (COE) is automatically constrained as the control is fundamentally flawed.
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- SECTION 2: CONTROL OPERATING / PERFORMANCE EFFECTIVENESS (COE) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-md">
+                            <i data-lucide="activity" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-semibold text-white">2. Control Operating Effectiveness (COE / Performance) Evaluator</h3>
+                            <p class="text-xs text-slate-400">Evaluates whether the control operated consistently and effectively as intended throughout the review period.</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded">Performance Assessment</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- COE Inputs -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Testing Sample Deviation Result</label>
+                            <select id="coeDeviations" onchange="evaluateCOE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="0" selected>0 Exceptions in Sample (Pass)</option>
+                                <option value="1">1 Exception (Within TDR / Isolated)</option>
+                                <option value="multiple">2+ Exceptions (Systemic Failure)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Audit Trail & Evidence Quality</label>
+                            <select id="coeEvidence" onchange="evaluateCOE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="full" selected>Complete Timestamped Logs Available</option>
+                                <option value="incomplete">Partial Logs / Retrospective Confirmations</option>
+                                <option value="missing">No Retrievable Audit Trail</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Timeliness of Exception Remediation</label>
+                            <select id="coeTimeliness" onchange="evaluateCOE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="ontime" selected>Breaches Escalated & Resolved in SLA (&lt;48h)</option>
+                                <option value="delayed">Breaches Resolved with Chronic Delays</option>
+                                <option value="unresolved">Breaches Left Unresolved / Unmonitored</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- COE Output Rationale -->
+                    <div class="md:col-span-2 bg-slate-950 p-5 rounded-lg border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">COE Rating</span>
+                                <div id="coeBadge" class="text-sm font-bold px-3 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">OPERATING EFFECTIVELY</div>
+                            </div>
+                            <div class="text-xs text-slate-300 space-y-2 bg-slate-900/60 p-4 rounded border border-slate-800">
+                                <p class="font-semibold text-slate-200">Operating Performance Rationale:</p>
+                                <p id="coeRationale">0 exceptions observed across the independent testing sample. Full audit trail verified with timely escalation handling.</p>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800">
+                            <strong>Remediation Target:</strong> 1LoD Process Owner & Business Unit Risk Management (BURM).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
     </main>
@@ -270,16 +344,11 @@
             const tdr = parseFloat(document.getElementById('tdr').value);
             const k = parseInt(document.getElementById('expectedDev').value) || 0;
 
-            // Simplified standard attribute sampling formula based on binomial log-likelihood for zero deviations
-            // n = ln(1 - Conf) / ln(1 - TDR)
             let n_infinite = Math.log(1 - conf) / Math.log(1 - tdr);
-            
-            // Adjust for allowed deviations
             if (k > 0) {
                 n_infinite = n_infinite * (1 + k * 0.75);
             }
 
-            // Finite Population Correction: n = n0 / (1 + (n0 - 1)/N)
             let n = Math.ceil(n_infinite / (1 + (n_infinite - 1) / N));
             if (n > N) n = N;
 
@@ -289,35 +358,58 @@
                 `Under a ${(conf*100).toFixed(0)}% confidence level with a ${(tdr*100).toFixed(0)}% Tolerable Deviation Rate (TDR) across a population of ${N.toLocaleString()} events, sampling ${n} items provides statistical assurance that the true error rate is within boundaries.`;
         }
 
-        // Finding Evaluation Matrix
-        function evaluateFinding() {
-            const fin = parseInt(document.getElementById('finImpact').value);
-            const reg = parseInt(document.getElementById('regImpact').value);
-            const comp = document.getElementById('compControl').value;
-            
-            let score = fin + reg;
-            if (comp === 'no') score += 1;
+        // CDE Evaluation Function
+        function evaluateCDE() {
+            const auto = document.getElementById('cdeAutomation').value;
+            const sod = document.getElementById('cdeSod').value;
+            const policy = document.getElementById('cdePolicy').value;
 
-            const badge = document.getElementById('findingSeverity');
-            const action = document.getElementById('escalationAction');
+            const badge = document.getElementById('cdeBadge');
+            const rationale = document.getElementById('cdeRationale');
 
-            if (score >= 6) {
-                badge.innerText = 'CRITICAL / HIGH RISK';
-                badge.className = 'text-3xl font-extrabold text-rose-500 mt-2';
-                action.innerText = 'Immediate executive escalation to Head of Operational Risk & CRO. Formal remediation plan due within 15 days.';
-            } else if (score >= 4) {
-                badge.innerText = 'MEDIUM RISK';
-                badge.className = 'text-3xl font-extrabold text-amber-400 mt-2';
-                action.innerText = 'Remediation required within 60 business days. Logged on 2LoD risk register; periodic re-testing required.';
+            if (sod === 'none' || policy === 'unaligned') {
+                badge.innerText = 'DESIGN DEFICIENT (HIGH RISK)';
+                badge.className = 'text-sm font-bold px-3 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                rationale.innerText = 'Critical control design flaw identified. Single point of failure or lack of policy alignment prevents the control from effectively mitigating risk regardless of execution.';
+            } else if (auto === 'manual' || sod === 'partial' || policy === 'ambiguous') {
+                badge.innerText = 'SUB-OPTIMAL DESIGN (MEDIUM RISK)';
+                badge.className = 'text-sm font-bold px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30';
+                rationale.innerText = 'The control architecture relies on manual checkpoints or discretionary rules. Susceptible to human error and lack of scalability.';
             } else {
-                badge.innerText = 'LOW / OBSERVATION';
-                badge.className = 'text-3xl font-extrabold text-emerald-400 mt-2';
-                action.innerText = 'Address during normal business cycle or next policy review. No formal CRO committee escalation required.';
+                badge.innerText = 'EFFECTIVELY DESIGNED';
+                badge.className = 'text-sm font-bold px-3 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                rationale.innerText = 'Robust control design with enforced segregation of duties, automated validation checkpoints, and unambiguous policy mandates.';
             }
         }
 
-        // Run on load
+        // COE Evaluation Function
+        function evaluateCOE() {
+            const dev = document.getElementById('coeDeviations').value;
+            const evidence = document.getElementById('coeEvidence').value;
+            const timeliness = document.getElementById('coeTimeliness').value;
+
+            const badge = document.getElementById('coeBadge');
+            const rationale = document.getElementById('coeRationale');
+
+            if (dev === 'multiple' || evidence === 'missing') {
+                badge.innerText = 'OPERATING INEFFECTIVE (HIGH RISK)';
+                badge.className = 'text-sm font-bold px-3 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                rationale.innerText = 'Testing demonstrated systemic operational failures or missing audit trails. The control failed to execute as designed during the testing period.';
+            } else if (dev === '1' || evidence === 'incomplete' || timeliness === 'delayed') {
+                badge.innerText = 'PARTIALLY EFFECTIVE (MEDIUM RISK)';
+                badge.className = 'text-sm font-bold px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30';
+                rationale.innerText = 'Isolated execution lapses or retrospective audit evidence observed. Escalation SLAs exceeded but risk remained partially contained.';
+            } else {
+                badge.innerText = 'OPERATING EFFECTIVELY';
+                badge.className = 'text-sm font-bold px-3 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+                rationale.innerText = '0 exceptions observed across the independent testing sample. Full audit trail verified with timely escalation handling.';
+            }
+        }
+
+        // Initialize calculations
         calculateSample();
+        evaluateCDE();
+        evaluateCOE();
     </script>
 </body>
 </html>
