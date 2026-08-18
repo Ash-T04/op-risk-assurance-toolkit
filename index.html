@@ -27,7 +27,7 @@
             <nav class="flex gap-2 bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs font-medium">
                 <button onclick="switchTab('sampler')" id="tab-btn-sampler" class="tab-btn px-4 py-2 rounded-md bg-indigo-600 text-white transition">Audit Sampler</button>
                 <button onclick="switchTab('playbooks')" id="tab-btn-playbooks" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">Testing Playbooks</button>
-                <button onclick="switchTab('evaluator')" id="tab-btn-evaluator" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">CDE & COE Evaluators</button>
+                <button onclick="switchTab('evaluator')" id="tab-btn-evaluator" class="tab-btn px-4 py-2 rounded-md text-slate-400 hover:text-white transition">CDE & CPE Evaluators</button>
             </nav>
         </div>
     </header>
@@ -49,7 +49,6 @@
                         <i data-lucide="sliders" class="w-4 h-4 text-indigo-400"></i> Parameters
                     </h3>
 
-                    <!-- Control Frequency Dropdown -->
                     <div>
                         <label class="block text-xs text-slate-400 mb-1">Control Frequency</label>
                         <select id="ctrlFrequency" onchange="onFrequencyChange()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 text-indigo-300 font-medium">
@@ -151,7 +150,7 @@
                     <p class="text-xs text-slate-400">Control to prevent unauthorized fund transfers initiated via email or unverified channels.</p>
                     <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
                         <p><strong class="text-slate-300">CDE Criteria:</strong> Policy mandates independent call-back to registered contact number for orders &gt; $250k.</p>
-                        <p><strong class="text-slate-300">COE Sampling:</strong> Sample 25–45 transactions across all wealth booking desks; test voice recording against core registry.</p>
+                        <p><strong class="text-slate-300">CPE Sampling:</strong> Sample 25–45 transactions across all wealth booking desks; test voice recording against core registry.</p>
                     </div>
                 </div>
 
@@ -167,7 +166,7 @@
                     <p class="text-xs text-slate-400">Detecting unauthorized asset allocation drift in Discretionary Portfolio Management.</p>
                     <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
                         <p><strong class="text-slate-300">CDE Criteria:</strong> Daily automated breach alert when equity/fixed-income bucket drifts &gt; 5% from mandate.</p>
-                        <p><strong class="text-slate-300">COE Sampling:</strong> Sample 25 daily drift reports across the year; verify tickets resolved within 48h SLA.</p>
+                        <p><strong class="text-slate-300">CPE Sampling:</strong> Sample 25 daily drift reports across the year; verify tickets resolved within 48h SLA.</p>
                     </div>
                 </div>
 
@@ -183,7 +182,7 @@
                     <p class="text-xs text-slate-400">Ensuring Relationship Managers do not solicit securities in non-licensed foreign jurisdictions.</p>
                     <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
                         <p><strong class="text-slate-300">CDE Criteria:</strong> Pre-travel clearance approval required in CRM prior to overseas client interactions.</p>
-                        <p><strong class="text-slate-300">COE Sampling:</strong> Sample 25 business trips; reconcile RM flight/hotel expense claims with approved CRM travel filings.</p>
+                        <p><strong class="text-slate-300">CPE Sampling:</strong> Sample 25 business trips; reconcile RM flight/hotel expense claims with approved CRM travel filings.</p>
                     </div>
                 </div>
 
@@ -199,17 +198,17 @@
                     <p class="text-xs text-slate-400">Periodic Know-Your-Customer (KYC) and Source of Wealth (SoW) re-assessment for high-risk clients.</p>
                     <div class="text-xs space-y-1.5 bg-slate-950 p-3 rounded-lg border border-slate-800">
                         <p><strong class="text-slate-300">CDE Criteria:</strong> Core banking hard-stop blocks transactions if annual review date passes without formal re-approval.</p>
-                        <p><strong class="text-slate-300">COE Sampling:</strong> Test 100% of PEP accounts overdue &gt; 30 days; confirm system restriction was applied.</p>
+                        <p><strong class="text-slate-300">CPE Sampling:</strong> Test 100% of PEP accounts overdue &gt; 30 days; confirm system restriction was applied.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 3: SEPARATE CDE & COE EVALUATORS -->
+        <!-- TAB 3: SEPARATE CDE & CPE EVALUATORS -->
         <section id="tab-evaluator" class="hidden space-y-8">
             <div class="border-b border-slate-800 pb-4">
                 <h2 class="text-xl font-semibold text-white">Control Deficiency Evaluators</h2>
-                <p class="text-sm text-slate-400">Independent evaluation modules for <strong>Control Design Effectiveness (CDE)</strong> and <strong>Control Operating Effectiveness (COE)</strong>.</p>
+                <p class="text-sm text-slate-400">Independent evaluation modules for <strong>Control Design Effectiveness (CDE)</strong> and <strong>Control Performance Effectiveness (CPE / Operating)</strong>.</p>
             </div>
 
             <!-- SECTION 1: CONTROL DESIGN EFFECTIVENESS (CDE) -->
@@ -221,20 +220,21 @@
                         </div>
                         <div>
                             <h3 class="text-base font-semibold text-white">1. Control Design Effectiveness (CDE) Evaluator</h3>
-                            <p class="text-xs text-slate-400">Evaluates whether the control as documented is conceptually adequate to mitigate the target risk.</p>
+                            <p class="text-xs text-slate-400">Evaluates whether the control as documented is conceptually adequate to mitigate the target operational risk.</p>
                         </div>
                     </div>
-                    <span class="text-xs font-mono text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2.5 py-1 rounded">Design Assessment</span>
+                    <span class="text-xs font-mono text-sky-400 bg-sky-950/60 border border-sky-800/60 px-2.5 py-1 rounded">CDE Assessment</span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- CDE Inputs (All 4 Dropdowns Active) -->
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs text-slate-400 mb-1">Control Frequency Appropriateness</label>
+                            <label class="block text-xs text-slate-400 mb-1">Execution Frequency & Risk Velocity</label>
                             <select id="cdeFreqMatch" onchange="evaluateCDE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                                <option value="aligned" selected>Frequency Matches Velocity of Risk (e.g. Daily trades = Daily control)</option>
-                                <option value="lagging">Frequency Lags Risk Velocity (e.g. Monthly check for high-frequency trades)</option>
-                                <option value="adhoc_untriggered">Ad-hoc without Automated Trigger Mechanism</option>
+                                <option value="aligned" selected>Aligned (Frequency matches transaction risk pace)</option>
+                                <option value="lagging">Lagging (Periodic review for rapid transactions)</option>
+                                <option value="adhoc_untriggered">Ad-Hoc / Event without Automated System Trigger</option>
                             </select>
                         </div>
 
@@ -243,7 +243,7 @@
                             <select id="cdeAutomation" onchange="evaluateCDE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
                                 <option value="automated">Automated Preventative (System Hard-Stop)</option>
                                 <option value="semi">Semi-Automated Detective (Daily Alert / Report)</option>
-                                <option value="manual" selected>Purely Manual / Spreadsheet-Based</option>
+                                <option value="manual" selected>Purely Manual / Spreadsheet-Based Check</option>
                             </select>
                         </div>
 
@@ -251,31 +251,41 @@
                             <label class="block text-xs text-slate-400 mb-1">Segregation of Duties (SoD)</label>
                             <select id="cdeSod" onchange="evaluateCDE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
                                 <option value="adequate" selected>Enforced System Dual-Authorization (4-Eyes)</option>
-                                <option value="partial">Manual Sign-off on Same Desk</option>
-                                <option value="none">Single Individual Initiates & Approves</option>
+                                <option value="partial">Manual Sign-Off on Same Reporting Desk</option>
+                                <option value="none">No SoD (Single Individual Initiates & Approves)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Policy & Standard Alignment</label>
+                            <select id="cdePolicy" onchange="evaluateCDE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="clear" selected>Formally Documented with Clear Thresholds</option>
+                                <option value="ambiguous">Informal Guidance / Discretionary Thresholds</option>
+                                <option value="unaligned">Unaligned / Missing from Governance Policy</option>
                             </select>
                         </div>
                     </div>
 
+                    <!-- CDE Output Rationale -->
                     <div class="md:col-span-2 bg-slate-950 p-5 rounded-lg border border-slate-800 flex flex-col justify-between">
                         <div>
                             <div class="flex justify-between items-start mb-3">
-                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">CDE Rating</span>
+                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">CDE Rating Output</span>
                                 <div id="cdeBadge" class="text-sm font-bold px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">SUB-OPTIMAL DESIGN</div>
                             </div>
                             <div class="text-xs text-slate-300 space-y-2 bg-slate-900/60 p-4 rounded border border-slate-800">
-                                <p class="font-semibold text-slate-200">Design Assessment Rationale:</p>
+                                <p class="font-semibold text-slate-200">Design Assessment Breakdown:</p>
                                 <p id="cdeRationale">The control relies on manual intervention with non-automated checks. Risk of human error or delayed detection is heightened.</p>
                             </div>
                         </div>
-                        <div class="text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800">
-                            <strong>Assurance Rule:</strong> If CDE is rated Deficient, COE testing cannot compensate for fundamental design flaws.
+                        <div class="text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800" id="cdeAssuranceImpact">
+                            <strong>Assurance Protocol:</strong> When CDE is sub-optimal or deficient, performance testing cannot compensate for architectural gaps.
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION 2: CONTROL OPERATING / PERFORMANCE EFFECTIVENESS (COE) -->
+            <!-- SECTION 2: CONTROL PERFORMANCE EFFECTIVENESS (CPE) -->
             <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-6">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                     <div class="flex items-center gap-2">
@@ -283,57 +293,70 @@
                             <i data-lucide="activity" class="w-5 h-5"></i>
                         </div>
                         <div>
-                            <h3 class="text-base font-semibold text-white">2. Control Operating Effectiveness (COE / Performance) Evaluator</h3>
-                            <p class="text-xs text-slate-400">Evaluates execution consistency calibrated against <strong>Control Frequency</strong>.</p>
+                            <h3 class="text-base font-semibold text-white">2. Control Performance Effectiveness (CPE / Operating) Evaluator</h3>
+                            <p class="text-xs text-slate-400">Evaluates actual execution consistency and operating discipline across the assurance period.</p>
                         </div>
                     </div>
-                    <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded">Performance Assessment</span>
+                    <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded">CPE Assessment</span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- CPE Inputs (All 4 Dropdowns Active) -->
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs text-slate-400 mb-1">Control Frequency Tested</label>
-                            <select id="coeFrequency" onchange="evaluateCOE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 text-indigo-300 font-medium">
-                                <option value="high_freq" selected>Daily / Multiple Times Daily / Ad-Hoc</option>
+                            <label class="block text-xs text-slate-400 mb-1">Control Frequency Under Review</label>
+                            <select id="cpeFrequency" onchange="evaluateCPE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 text-indigo-300 font-medium">
+                                <option value="daily" selected>Daily / Multiple Daily</option>
                                 <option value="weekly">Weekly (52/yr)</option>
                                 <option value="monthly">Monthly (12/yr)</option>
-                                <option value="low_freq">Quarterly / Semi-Annual / Annual (1–4/yr)</option>
+                                <option value="quarterly">Quarterly / Semi-Annual (2–4/yr)</option>
+                                <option value="annual">Annual (1/yr)</option>
+                                <option value="adhoc">Ad-Hoc / Event-Driven</option>
                             </select>
                         </div>
 
                         <div>
                             <label class="block text-xs text-slate-400 mb-1">Observed Exceptions in Sample</label>
-                            <select id="coeDeviations" onchange="evaluateCOE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                                <option value="0" selected>0 Exceptions (Full Pass)</option>
-                                <option value="1">1 Exception Observed</option>
-                                <option value="multiple">2+ Exceptions (Multiple Failures)</option>
+                            <select id="cpeDeviations" onchange="evaluateCPE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="0" selected>0 Exceptions (Zero Deviations)</option>
+                                <option value="1">1 Isolated Exception</option>
+                                <option value="multiple">2+ Exceptions (Systemic Deviations)</option>
                             </select>
                         </div>
 
                         <div>
                             <label class="block text-xs text-slate-400 mb-1">Audit Trail & Evidence Quality</label>
-                            <select id="coeEvidence" onchange="evaluateCOE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
-                                <option value="full" selected>Complete Timestamped Logs Available</option>
-                                <option value="incomplete">Partial Logs / Retrospective Confirmations</option>
-                                <option value="missing">No Retrievable Audit Trail</option>
+                            <select id="cpeEvidence" onchange="evaluateCPE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="full" selected>Complete Retrievable Logs & Sign-Offs</option>
+                                <option value="partial">Partial Documentation / Retrospective Sign-Offs</option>
+                                <option value="missing">Missing Audit Trail / Unverifiable Records</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">Exception Escalation & SLA Adherence</label>
+                            <select id="cpeTimeliness" onchange="evaluateCPE()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-indigo-500">
+                                <option value="ontime" selected>Breaches Escalated & Remediated in SLA (&lt;48h)</option>
+                                <option value="delayed">Breaches Remediated with Substantial Delays</option>
+                                <option value="unresolved">Breaches Left Unremediated / Unescalated</option>
                             </select>
                         </div>
                     </div>
 
+                    <!-- CPE Output Rationale -->
                     <div class="md:col-span-2 bg-slate-950 p-5 rounded-lg border border-slate-800 flex flex-col justify-between">
                         <div>
                             <div class="flex justify-between items-start mb-3">
-                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">COE Rating</span>
-                                <div id="coeBadge" class="text-sm font-bold px-3 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">OPERATING EFFECTIVELY</div>
+                                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">CPE Rating Output</span>
+                                <div id="cpeBadge" class="text-sm font-bold px-3 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">OPERATING EFFECTIVELY</div>
                             </div>
                             <div class="text-xs text-slate-300 space-y-2 bg-slate-900/60 p-4 rounded border border-slate-800">
-                                <p class="font-semibold text-slate-200">Operating Performance Rationale:</p>
-                                <p id="coeRationale">0 exceptions observed across the independent testing sample. Full audit trail verified with timely escalation handling.</p>
+                                <p class="font-semibold text-slate-200">Performance Assessment Breakdown:</p>
+                                <p id="cpeRationale">0 exceptions observed across the independent testing sample. Full audit trail verified with timely escalation handling.</p>
                             </div>
                         </div>
-                        <div class="text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800">
-                            <strong>Frequency Sensitivity:</strong> Low frequency controls (Annual/Quarterly) have 0 error tolerance; a single failure represents a significant population breakdown.
+                        <div class="text-[11px] text-slate-400 mt-3 pt-2 border-t border-slate-800" id="cpeEscalation">
+                            <strong>1LoD / BURM Action:</strong> Maintain current operational cadence; re-verify during next standard assurance cycle.
                         </div>
                     </div>
                 </div>
@@ -360,36 +383,20 @@
             document.getElementById('tab-btn-' + tabId).classList.remove('text-slate-400');
         }
 
-        // Auto-set population and benchmark sample when frequency changes
+        // Auto-set population and benchmark sample when frequency changes in Sampler
         function onFrequencyChange() {
             const freq = document.getElementById('ctrlFrequency').value;
             const popInput = document.getElementById('popSize');
 
             switch(freq) {
-                case 'multiple_daily':
-                    popInput.value = 1500;
-                    break;
-                case 'daily':
-                    popInput.value = 250;
-                    break;
-                case 'weekly':
-                    popInput.value = 52;
-                    break;
-                case 'monthly':
-                    popInput.value = 12;
-                    break;
-                case 'quarterly':
-                    popInput.value = 4;
-                    break;
-                case 'biannual':
-                    popInput.value = 2;
-                    break;
-                case 'annual':
-                    popInput.value = 1;
-                    break;
-                case 'adhoc':
-                    popInput.value = 400;
-                    break;
+                case 'multiple_daily': popInput.value = 1500; break;
+                case 'daily': popInput.value = 250; break;
+                case 'weekly': popInput.value = 52; break;
+                case 'monthly': popInput.value = 12; break;
+                case 'quarterly': popInput.value = 4; break;
+                case 'biannual': popInput.value = 2; break;
+                case 'annual': popInput.value = 1; break;
+                case 'adhoc': popInput.value = 400; break;
             }
             calculateSample();
         }
@@ -404,28 +411,25 @@
             let n = 0;
             let rationale = "";
 
-            // Industry standard benchmark rules for low-frequency controls
             if (freq === 'annual') {
                 n = 1;
                 rationale = "For Annual controls (N=1), 100% testing is required (Sample = 1). Any deviation is a 100% control failure.";
             } else if (freq === 'biannual') {
                 n = 2;
-                rationale = "For Semi-Annual / Bi-Annual controls (N=2), 100% testing is required (Sample = 2).";
+                rationale = "For Semi-Annual / Bi-Annual controls (N=2), 100% population testing is required (Sample = 2).";
             } else if (freq === 'quarterly') {
                 n = (N <= 4) ? N : 4;
-                rationale = `For Quarterly controls (N=${N}), industry audit standards mandate testing all 4 quarters or a minimum of 2–4 quarters depending on risk.`;
+                rationale = `For Quarterly controls (N=${N}), industry audit standards mandate testing 2–4 quarters depending on risk rating.`;
             } else if (freq === 'monthly') {
                 n = (N <= 12) ? Math.min(N, (conf >= 0.95 ? 5 : 3)) : 5;
-                rationale = `For Monthly controls (N=${N}), industry standard guidance specifies testing 2 to 5 monthly reconciliations.`;
+                rationale = `For Monthly controls (N=${N}), industry standard guidance specifies testing 3 to 5 monthly reconciliations.`;
             } else if (freq === 'weekly') {
                 n = (N <= 52) ? Math.min(N, (conf >= 0.95 ? 15 : 10)) : 15;
-                rationale = `For Weekly controls (N=${N}), testing 10 to 15 weekly occurrences provides assurance without over-sampling.`;
+                rationale = `For Weekly controls (N=${N}), testing 10 to 15 weekly occurrences provides high assurance without over-sampling.`;
             } else {
-                // Statistical attribute sampling for Daily / Multiple Daily / High-Volume Ad-Hoc
                 let n_infinite = Math.log(1 - conf) / Math.log(1 - tdr);
                 n = Math.ceil(n_infinite / (1 + (n_infinite - 1) / N));
                 
-                // Enforce practical private banking minimums
                 if (freq === 'daily') {
                     n = Math.min(N, Math.max(25, n));
                     rationale = `For Daily controls (N=${N}), standard 2LoD assurance requires a 25–40 item sample (computed: ${n}) under ${(conf*100).toFixed(0)}% confidence and ${(tdr*100).toFixed(0)}% TDR.`;
@@ -443,64 +447,137 @@
             document.getElementById('rationaleText').innerText = rationale;
         }
 
-        // CDE Evaluation Function
+        // Comprehensive CDE Evaluation (Factors in ALL 4 Dropdowns)
         function evaluateCDE() {
             const freqMatch = document.getElementById('cdeFreqMatch').value;
             const auto = document.getElementById('cdeAutomation').value;
             const sod = document.getElementById('cdeSod').value;
+            const policy = document.getElementById('cdePolicy').value;
 
             const badge = document.getElementById('cdeBadge');
             const rationale = document.getElementById('cdeRationale');
+            const impact = document.getElementById('cdeAssuranceImpact');
 
-            if (freqMatch === 'adhoc_untriggered' || sod === 'none') {
-                badge.innerText = 'DESIGN DEFICIENT (HIGH RISK)';
+            // Scoring system across all 4 parameters (0 = optimal, higher = worse)
+            let penaltyScore = 0;
+            let drivers = [];
+
+            // 1. Frequency match
+            if (freqMatch === 'adhoc_untriggered') { penaltyScore += 3; drivers.push("Ad-hoc execution lacks an automated triggering mechanism"); }
+            else if (freqMatch === 'lagging') { penaltyScore += 2; drivers.push("Control execution frequency lags underlying transaction risk velocity"); }
+            else { drivers.push("Execution frequency is well-aligned with risk velocity"); }
+
+            // 2. Automation nature
+            if (auto === 'manual') { penaltyScore += 2; drivers.push("relying on purely manual/spreadsheet checks increases human failure probability"); }
+            else if (auto === 'semi') { penaltyScore += 1; drivers.push("semi-automated detective alerts require timely human intervention"); }
+            else { drivers.push("automated preventative system hard-stops provide strong pre-execution mitigation"); }
+
+            // 3. Segregation of Duties
+            if (sod === 'none') { penaltyScore += 4; drivers.push("a critical lack of Segregation of Duties allows single-user initiation and approval"); }
+            else if (sod === 'partial') { penaltyScore += 2; drivers.push("same-desk manual sign-off creates partial SoD conflicts"); }
+            else { drivers.push("system-enforced dual-authorization (4-Eyes) is in place"); }
+
+            // 4. Policy Alignment
+            if (policy === 'unaligned') { penaltyScore += 3; drivers.push("the control is missing or unaligned with formal governance policy"); }
+            else if (policy === 'ambiguous') { penaltyScore += 1.5; drivers.push("policy guidelines contain discretionary thresholds"); }
+            else { drivers.push("operating standards and quantitative thresholds are clearly documented"); }
+
+            // Synthesize CDE Verdict
+            if (penaltyScore >= 6 || sod === 'none' || policy === 'unaligned') {
+                badge.innerText = 'CDE DEFICIENT (HIGH RISK)';
                 badge.className = 'text-sm font-bold px-3 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30';
-                rationale.innerText = 'Critical control design flaw identified. Lack of an automated trigger for ad-hoc events or absence of dual-authorization leaves the bank exposed to unmonitored risk.';
-            } else if (freqMatch === 'lagging' || auto === 'manual' || sod === 'partial') {
+                impact.innerHTML = '<strong>Assurance Protocol:</strong> <strong>CDE FAILED.</strong> Operational performance testing (CPE) cannot compensate for fundamental design gaps. Issue must be raised directly to CRO.';
+            } else if (penaltyScore >= 2.5) {
                 badge.innerText = 'SUB-OPTIMAL DESIGN (MEDIUM RISK)';
                 badge.className = 'text-sm font-bold px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30';
-                rationale.innerText = 'Control frequency lags behind underlying risk velocity (e.g. periodic review for rapid trading) or relies heavily on manual intervention.';
+                impact.innerHTML = '<strong>Assurance Protocol:</strong> <strong>CDE CONDITIONALLY ACCEPTED.</strong> Increased sample sizes required during CPE testing to verify manual checkpoints.';
             } else {
                 badge.innerText = 'EFFECTIVELY DESIGNED';
                 badge.className = 'text-sm font-bold px-3 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
-                rationale.innerText = 'Robust control design: execution frequency matches risk velocity, supported by automated hard-stops and enforced segregation of duties.';
+                impact.innerHTML = '<strong>Assurance Protocol:</strong> <strong>CDE SATISFACTORY.</strong> Proceed with standard statistical sample testing for Control Performance Effectiveness (CPE).';
             }
+
+            // Synthesize narrative
+            rationale.innerText = drivers.join("; ") + ".";
         }
 
-        // COE Evaluation Function (Frequency Sensitive)
-        function evaluateCOE() {
-            const freqType = document.getElementById('coeFrequency').value;
-            const dev = document.getElementById('coeDeviations').value;
-            const evidence = document.getElementById('coeEvidence').value;
+        // Comprehensive CPE Evaluation (Factors in ALL 4 Dropdowns)
+        function evaluateCPE() {
+            const freq = document.getElementById('cpeFrequency').value;
+            const dev = document.getElementById('cpeDeviations').value;
+            const evidence = document.getElementById('cpeEvidence').value;
+            const timeliness = document.getElementById('cpeTimeliness').value;
 
-            const badge = document.getElementById('coeBadge');
-            const rationale = document.getElementById('coeRationale');
+            const badge = document.getElementById('cpeBadge');
+            const rationale = document.getElementById('cpeRationale');
+            const escalation = document.getElementById('cpeEscalation');
 
-            // Low frequency controls (Annual / Quarterly) have ZERO tolerance for even 1 exception
-            if (dev === 'multiple' || evidence === 'missing' || (freqType === 'low_freq' && dev === '1')) {
-                badge.innerText = 'OPERATING INEFFECTIVE (HIGH RISK)';
-                badge.className = 'text-sm font-bold px-3 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30';
-                
-                if (freqType === 'low_freq' && dev === '1') {
-                    rationale.innerText = 'A single exception in a low-frequency control (Annual/Quarterly) represents a 25%–100% failure rate across the year. Evaluated as Operatively Ineffective.';
+            let penaltyScore = 0;
+            let drivers = [];
+
+            // 1. Frequency context & Deviations Interaction
+            const isLowFreq = (freq === 'annual' || freq === 'quarterly');
+            
+            if (dev === 'multiple') {
+                penaltyScore += 5;
+                drivers.push(`Multiple exceptions observed across the ${freq} testing sample indicating systemic breakdown`);
+            } else if (dev === '1') {
+                if (isLowFreq) {
+                    penaltyScore += 4;
+                    drivers.push(`1 exception on a ${freq} control represents a severe failure rate (25%–100% of annual executions)`);
                 } else {
-                    rationale.innerText = 'Systemic operational failures or missing audit trail identified. The control did not execute reliably during the testing window.';
+                    penaltyScore += 2;
+                    drivers.push(`1 isolated exception observed on a ${freq} recurring control`);
                 }
-            } else if (dev === '1' || evidence === 'incomplete') {
+            } else {
+                drivers.push(`Zero exceptions observed across the ${freq} test sample`);
+            }
+
+            // 2. Audit Trail Evidence
+            if (evidence === 'missing') {
+                penaltyScore += 4;
+                drivers.push("audit trail is missing or unverifiable, preventing independent re-performance");
+            } else if (evidence === 'partial') {
+                penaltyScore += 2;
+                drivers.push("audit trail contains retrospective sign-offs or incomplete documentation");
+            } else {
+                drivers.push("complete timestamped evidence and authorizations verified");
+            }
+
+            // 3. Timeliness and SLA Adherence
+            if (timeliness === 'unresolved') {
+                penaltyScore += 3;
+                drivers.push("identified exceptions remain unresolved or unmonitored beyond acceptable parameters");
+            } else if (timeliness === 'delayed') {
+                penaltyScore += 1.5;
+                drivers.push("exception remediation exceeded the documented 48h SLA window");
+            } else {
+                drivers.push("breaches and alerts were handled within formal SLA timeframes");
+            }
+
+            // Synthesize CPE Verdict
+            if (penaltyScore >= 4.5 || dev === 'multiple' || evidence === 'missing' || (isLowFreq && dev === '1')) {
+                badge.innerText = 'CPE INEFFECTIVE (HIGH RISK)';
+                badge.className = 'text-sm font-bold px-3 py-1 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30';
+                escalation.innerHTML = '<strong>Assurance Mandate:</strong> Logged as a High-Severity finding on 2LoD register. Formal management action plan (MAP) required within 15 business days.';
+            } else if (penaltyScore >= 1.5) {
                 badge.innerText = 'PARTIALLY EFFECTIVE (MEDIUM RISK)';
                 badge.className = 'text-sm font-bold px-3 py-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30';
-                rationale.innerText = 'Isolated execution failure on a recurring high-frequency control or retrospective audit logs. Escalation and remediation monitoring required.';
+                escalation.innerHTML = '<strong>Assurance Mandate:</strong> Medium finding. 1LoD Process Owner must remediate procedural gaps within 60 business days. Target re-test in next cycle.';
             } else {
                 badge.innerText = 'OPERATING EFFECTIVELY';
                 badge.className = 'text-sm font-bold px-3 py-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
-                rationale.innerText = '0 exceptions observed across the frequency-calibrated testing sample. Full audit trail verified with timely escalation handling.';
+                escalation.innerHTML = '<strong>Assurance Mandate:</strong> Control verified as operatively sound. No remediation required; maintain standard 2LoD oversight.';
             }
+
+            // Synthesize narrative
+            rationale.innerText = drivers.join("; ") + ".";
         }
 
-        // Initialize calculations
+        // Initial Runs
         calculateSample();
         evaluateCDE();
-        evaluateCOE();
+        evaluateCPE();
     </script>
 </body>
 </html>
